@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+* 비복원추출(default)
+```{r}
+sample(1:8, 5)
+```
+* 복원추출
+```{r}
+# replace is the chance to be duplicated
+sample(1:8, 5, replace = T)
+```
+* 가중치 부여
+```{r}
+sample(1:10, 5, replace = T, prob = 1:10)
+```
+* 비복원 층화추출
+```{r}
+#install.packages('sampling')
+library(sampling)
+data("iris")
+x<-strata(stratanames = c('Species'),size = c(2,2,2), method = 'srswor', data=iris)
+getdata(iris,x)
+```
+* 복원 층화추출
+```{r}
+x<-strata(stratanames = c('Species'), size=c(2,2,2), method='srswr', data=iris)
+getdata(iris,x)
+```
+* 계통 샘플 추출
+```{r}
+#install.packages('doBy')
+library(doBy)
+
+x<-data.frame(x=1:100)
+sampleBy(~1,frac = .1, data = x, systematic = T)
+```
+* 난수 발생
+```{r}
+rnorm(5, mean = 10, sd = 25)
+```
+* 확률계산
+```{r}
+pnorm(2, mean = 0, sd = 1)
+```
+* 표준정규분포에서 누적확률 0.9
+```{r}
+qnorm(0.9, 0, 1)
+```
+* 확률밀도함수
+```{r}
+dnorm(2, 0, 1)
+```
+* 표준정규분포 그리기
+```{r}
+plot(density(rnorm(100000,0,2)))
+plot(density(rnorm(100000,0,1)))
+```
+

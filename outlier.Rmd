@@ -1,0 +1,42 @@
+---
+title: "Outlier"
+output: html_notebook
+---
+
+* Outlier
+```{r}
+# use the data from HDclassif
+#install.packages('HDclassif')
+#install.packages('DMwR')
+library(DMwR)
+rm(list=ls())
+data(wine, package = 'HDclassif')
+head(wine)
+```
+
+```{r}
+wine_od <- wine[,c(8,11,14,2)]
+outlier.scores <- lofactor(wine_od, k = 5)
+plot(density(outlier.scores))
+```
+```{r}
+outliers <- order(outlier.scores, decreasing = T)[1:10]
+n<-nrow(wine_od)
+print(outliers)
+summary(wine_od)
+```
+* Biplot
+```{r}
+labels <- 1:n
+labels[-outliers] <- "."
+biplot(prcomp(wine_od,center = T,scale. = T), cex = 0.8, xlabs = labels)
+```
+```{r}
+pch <- rep(".", n)
+pch[outliers]<-"+"
+col<-rep('black',n)
+col[outliers]<-'red'
+pairs(wine_od,pch=pch, col=col)
+```
+
+
